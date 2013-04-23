@@ -1,0 +1,21 @@
+{
+  "name": "finaldb",
+  "version": "0.0.0",
+  "description": "Database system using streams and file system. NoSql way.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node ./spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:finalclass/finaldb.git"
+  },
+  "keywords": [
+    "database",
+    "filesystem",
+    "nosql",
+    "stream"
+  ],
+  "author": "Szymon Wygnański <s@finalclass.net>",
+  "license": "MIT"
+}
