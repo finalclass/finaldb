@@ -1,7 +1,7 @@
 {
   "name": "finaldb",
   "version": "0.0.0",
-  "description": "Database system using streams and file system. NoSql way.",
+  "description": "Database system that uses streams and fs. NoSql way.",
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node ./spec/"
@@ -17,5 +17,13 @@
     "stream"
   ],
   "author": "Szymon Wygnański <s@finalclass.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "final-class": "0.0.0",
+    "when": "~2.0.1",
+    "node-fs": "~0.1.5"
+  },
+  "devDependencies": {
+    "jasmine-node": "*"
+  }
 }
