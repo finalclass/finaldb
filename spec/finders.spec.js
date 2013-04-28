@@ -10,24 +10,12 @@ describe('finders', function () {
     var dir = __dirname + '/var';
 
     beforeEach(function () {
-        var files = [
-                {
-                    id: 'one',
-                    rev: '1',
-                    foo: 'bar'
-                },
-                {
-                    id: 'two',
-                    rev: '1',
-                    foo: 'fbr'
-                },
-                {
-                    id: 'tree',
-                    rev: '1',
-                    abc: 'def'
-                }
-            ],
-            i;
+        var i,
+            files = [
+                {id: 'one', rev: '1', foo: 'bar'},
+                {id: 'two', rev: '1', foo: 'fbr'},
+                {id: 'tree', rev: '1', abc: 'def'}
+            ];
 
         ffs.mkdirSync(dir, 0x1ff);
 
@@ -72,7 +60,6 @@ describe('finders', function () {
             expect(one.rev).toBe('1');
             expect(one.foo).toBe('bar');
         });
-
     });
 
 });
