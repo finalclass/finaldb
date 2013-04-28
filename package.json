@@ -1,30 +1,30 @@
 {
-    "name": "final-db",
-    "version": "0.0.0",
-    "description": "Database system that uses streams and fs. NoSql way.",
-    "main": "index.js",
-    "scripts": {
-        "test": "jasmine-node ./spec/"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:finalclass/finaldb.git"
-    },
-    "keywords": [
-        "database",
-        "filesystem",
-        "nosql",
-        "stream"
-    ],
-    "author": "Szymon Wygnański <s@finalclass.net>",
-    "license": "MIT",
-    "dependencies": {
-        "final-class": "0.0.0",
-        "when": "~2.0.1",
-        "extend": "~1.1.3",
-        "final-fs": "*"
-    },
-    "devDependencies": {
-        "jasmine-node": "*"
-    }
+  "name": "final-db",
+  "version": "0.1.0",
+  "description": "Database system that uses streams and fs. NoSql way.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node ./spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:finalclass/finaldb.git"
+  },
+  "keywords": [
+    "database",
+    "filesystem",
+    "nosql",
+    "stream"
+  ],
+  "author": "Szymon Wygnański <s@finalclass.net>",
+  "license": "MIT",
+  "dependencies": {
+    "final-class": "0.0.0",
+    "when": "~2.0.1",
+    "extend": "~1.1.3",
+    "final-fs": "*"
+  },
+  "devDependencies": {
+    "jasmine-node": "*"
+  }
 }
