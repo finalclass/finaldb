@@ -1,4 +1,4 @@
-# Final-DB
+# Final-DB Embedded NoSQL database for nodejs platform.
 
 Final DB is NoSQl database that uses your file system as a storage.
 It uses [when](https://github.com/cujojs/when) library for async calls.
