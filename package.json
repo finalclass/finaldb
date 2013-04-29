@@ -14,7 +14,7 @@
     "database",
     "embedded",
     "filesystem",
-    "nosql",
+    "nosql"
   ],
   "author": "Szymon Wygnański <s@finalclass.net>",
   "license": "MIT",
