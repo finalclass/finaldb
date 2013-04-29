@@ -1,6 +1,6 @@
 {
   "name": "final-db",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Database system that uses streams and fs. NoSql way.",
   "main": "index.js",
   "scripts": {
