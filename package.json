@@ -1,7 +1,7 @@
 {
   "name": "final-db",
   "version": "1.0.0",
-  "description": "Database system that uses streams and fs. NoSql way.",
+  "description": "Embeded database system that uses bare file system as a storage. NoSql style.",
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node ./spec/"
@@ -12,9 +12,9 @@
   },
   "keywords": [
     "database",
+    "embedded",
     "filesystem",
     "nosql",
-    "stream"
   ],
   "author": "Szymon Wygnański <s@finalclass.net>",
   "license": "MIT",
