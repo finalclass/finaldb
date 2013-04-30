@@ -19,7 +19,6 @@ describe('mapper', function () {
                 {id: 'five', rev: '1', mark: 'super Duper', model: 'MiliardQ'}
             ];
 
-        ffs.rmdirRecursiveSync(dir);
         ffs.mkdirRecursiveSync(dir, 0x1ff);
 
         for (i = 0; i < files.length; i += 1) {
@@ -27,6 +26,10 @@ describe('mapper', function () {
         }
 
         cars = new Collection({dirName: dir});
+    });
+
+    afterEach(function () {
+        ffs.rmdirRecursiveSync(dir);
     });
 
     it('set map', function () {
