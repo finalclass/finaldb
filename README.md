@@ -8,10 +8,33 @@
 - Every async function returns a Promise. See [when](https://github.com/cujojs/when) documentation.
 - Uses [final-fs](https://github.com/finalclass/final-fs) library for file system manipulation.
 
+## fdb.Collection constructor
+
+The fdb.Collection constructor takes one argument: an object of options. However now there is only one option
+you can specify: dirName. This option can be set as a string or an Array.
+If you've specified dirName as an Array then path.resolve is called on this array.
+
+If instead of specifying an object as an input to fdb.Collection you've specified a string or an array
+then this argument is taken as a dirName.
+
+These are valid instantiations of fdb.Collection:
+
+```js
+var fdb = require('final-db');
+
+new fdb.Collection({dirName: '/path/to/collection/files'});
+//or
+new fdb.Collection({dirName: ['path', 'to', 'collection', 'files']});
+//or
+new fdb.Collection('/path/to/collection/files');
+//or
+new fdb.Collection(['path', 'to', 'collection', 'files']);
+```
+
 ## Insert
 
 ```js
-var fdb = require('fdb'),
+var fdb = require('final-db'),
     john = {name: 'John'},
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
@@ -32,7 +55,7 @@ When you run .flush() few thinks happen:
 ## Update
 
 ```js
-var fdb = require('fdb'),
+var fdb = require('final-db'),
     john = {id: 'sjwke234', name: 'JOHN'},
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
@@ -50,7 +73,7 @@ So you can revert any change any time.
 ## Remove
 
 ```js
-var fdb = require('fdb'),
+var fdb = require('final-db'),
     john = {id: 'sjwke234'},
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
@@ -63,7 +86,7 @@ users.flush().then(function () {
 ## Find by id
 
 ```js
-var fdb = require('fdb'),
+var fdb = require('final-db'),
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
 users.find('userId').then(function (user) {
@@ -74,7 +97,7 @@ users.find('userId').then(function (user) {
 ## Find all
 
 ```js
-var fdb = require('fdb'),
+var fdb = require('final-db'),
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
 users.find('userId').then(function (allUsers) {
