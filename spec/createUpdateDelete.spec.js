@@ -28,22 +28,6 @@ describe('create update delete', function () {
         ffs.rmdirRecursiveSync(__dirname + '/var');
     });
 
-    it('creates dir if not exists', function () {
-        var isDone = false;
-
-        cars.createDirIfNotExists().then(function () {
-            isDone = true;
-        });
-
-        waitsFor(function () {
-            return isDone;
-        }, 'creation of dir', 100);
-
-        runs(function () {
-            expect(fs.existsSync(__dirname + '/var/cars')).toBe(true);
-        });
-    });
-
     it('can insert', function () {
         var done = false;
 
