@@ -100,7 +100,7 @@ users.find('userId').then(function (user) {
 var fdb = require('final-db'),
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
-users.find('userId').then(function (allUsers) {
+users.find().then(function (allUsers) {
     // we got all users as array of objects now
 });
 ```
