@@ -65,10 +65,10 @@ describe('mapper', function () {
         cars
             .map('car by model', func) //create map (hash table)
             .then(function () { //write an empty 'control' file
-                return ffs.writeFile(tmpFilePath, ''); //this file shouldn't be removed by the next map set
+                return ffs.writeFile(tmpFilePath, 'test'); //this file shouldn't be removed by the next map set
             })
             .then(function () { //try to create hash table again with same function
-                return cars.map('car by model', func); //this map set should not rebuild the hash - func is the same!
+                return cars.map('car by model', func); //this action should not rebuild the hash - func is the same!
             })
             .then(function () {
                 done = true;
