@@ -67,7 +67,7 @@ users.flush().then(function () {
 ```
 
 After doing flush, old version of updated record will be saved in a file located here:
-collectionDir/recordId/revitionNumber.json
+collectionDir/recordId/revisionNumber.json
 So you can revert any change any time.
 
 ## Remove
