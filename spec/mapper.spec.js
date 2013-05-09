@@ -7,17 +7,19 @@ var Collection = require('../lib/Collection.js'),
 
 describe('mapper', function () {
     var dir = __dirname + '/var/cars',
-        cars;
+        cars,
+        files;
 
     beforeEach(function () {
-        var i,
-            files = [
-                {id: 'one', rev: '1', mark: 'fiat', model: '126p'},
-                {id: 'two', rev: '1', mark: 'mercedes', model: 'benz'},
-                {id: 'three', rev: '1', mark: 'mercedes', model: '124'},
-                {id: 'four', rev: '1', mark: 'citroen', model: 'c5'},
-                {id: 'five', rev: '1', mark: 'super Duper', model: 'MiliardQ'}
-            ];
+        var i;
+
+        files = [
+            {id: 'one', rev: '1', mark: 'fiat', model: '126p'},
+            {id: 'two', rev: '1', mark: 'mercedes', model: 'benz'},
+            {id: 'three', rev: '1', mark: 'mercedes', model: '124'},
+            {id: 'four', rev: '1', mark: 'citroen', model: 'c5'},
+            {id: 'five', rev: '1', mark: 'super Duper', model: 'MiliardQ'}
+        ];
 
         ffs.mkdirRecursiveSync(dir, 0x1ff);
 
@@ -29,7 +31,7 @@ describe('mapper', function () {
     });
 
     afterEach(function () {
-        ffs.rmdirRecursiveSync(dir);
+        ffs.rmdirRecursiveSync(__dirname + '/var');
     });
 
     it('set map', function () {
@@ -148,6 +150,10 @@ describe('mapper', function () {
                 fiatModels = result;
             })
             .otherwise(function (err) {
+                if (err.message === 'not_found') {
+                    fiatModels = [];
+                    return;
+                }
                 console.log(err);
                 console.log(err.stack);
             });
@@ -179,6 +185,11 @@ describe('mapper', function () {
             .then(function () {
                 return cars.find('models by mark', 'foo');
             })
+            .otherwise(function (err) {
+                if (err.message === 'not_found') {
+                    fooModels = [];
+                }
+            })
             .then(function (result) {
                 fooModels = result;
                 return cars.find('models by mark', 'fiat');
@@ -187,6 +198,10 @@ describe('mapper', function () {
                 fiatModels = result;
             })
             .otherwise(function (err) {
+                if (err.message === 'not_found') {
+                    fiatModels = [];
+                    return;
+                }
                 console.log(err);
                 console.log(err.stack);
             });
@@ -198,6 +213,37 @@ describe('mapper', function () {
         runs(function () {
             expect(fooModels.length).toBe(1);
             expect(fiatModels.length).toBe(0);
+        });
+    });
+
+    it('on update only one instance of record remains in map', function () {
+        var done = false,
+            car1 = files[0],
+            foundCars;
+
+        cars
+            .map('cars by mark', function (emit, obj) {
+                emit(obj.mark, obj);
+            })
+            .then(function () {
+                car1.model = 'foo';
+                return cars.update(car1).update(car1).flush();
+            })
+            .then(function () {
+                return cars.find('cars by mark', 'fiat');
+            })
+            .then(function (result) {
+                foundCars = result;
+                done = true;
+            });
+
+        waitsFor(function () {
+            return foundCars !== undefined;
+        }, 'update', 100);
+
+
+        runs(function () {
+            expect(foundCars.length).toBe(1);
         });
     });
 

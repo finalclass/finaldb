@@ -11,7 +11,6 @@ describe('create update delete', function () {
     var cars, car1, car2;
 
     beforeEach(function () {
-        ffs.rmdirRecursiveSync(__dirname + '/var');
         cars = new fdb.Collection({dirName: __dirname + '/var/cars'});
         car1 = {
             mark: 'Fiat',
@@ -24,7 +23,7 @@ describe('create update delete', function () {
     });
 
     afterEach(function () {
-
+        ffs.rmdirRecursiveSync(__dirname + '/var');
     });
 
     it('can insert', function () {
