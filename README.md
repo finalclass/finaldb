@@ -70,6 +70,22 @@ After doing flush, old version of updated record will be saved in a file located
 collectionDir/recordId/revisionNumber.json
 So you can revert any change any time.
 
+## Save
+
+Save method checks (by id) if record exists and if it's not executes insert but if record exists then executes update.
+
+```js
+var fdb = require('final-db'),
+    john = {id: 'sjwke234', name: 'JOHN'},
+    users = new fdb.Collection({dirName: __dirname + '/var'});
+
+users
+    .save(john);
+    .flush().then(function () {
+        //do something on finish
+    });
+```
+
 ## Remove
 
 ```js
