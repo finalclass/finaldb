@@ -4,15 +4,14 @@
 'use strict';
 
 var fdb = require('../index.js'),
-    EventEmitter = require('events').EventEmitter,
     fs = require('fs'),
-    path = require('path'),
     ffs = require('final-fs');
 
 describe('create update delete', function () {
     var cars, car1, car2;
 
     beforeEach(function () {
+        ffs.rmdirRecursiveSync(__dirname + '/var');
         cars = new fdb.Collection({dirName: __dirname + '/var/cars'});
         car1 = {
             mark: 'Fiat',
@@ -25,7 +24,7 @@ describe('create update delete', function () {
     });
 
     afterEach(function () {
-        ffs.rmdirRecursiveSync(__dirname + '/var');
+
     });
 
     it('can insert', function () {
@@ -107,6 +106,53 @@ describe('create update delete', function () {
             var dir = __dirname + '/var/cars/' + car1.id;
             expect(fs.existsSync(dir + '.json')).toBe(false);
             expect(fs.existsSync(dir)).toBe(false);
+        });
+    });
+
+    it('save inserts when no record found', function () {
+        var done = false;
+
+        cars
+            .save(car1)
+            .flush()
+            .then(function () {
+                done = true;
+            });
+
+        waitsFor(function () {
+            return done;
+        }, 'save insert', 100);
+
+        runs(function () {
+            var dir = __dirname + '/var/cars/' + car1.id;
+            expect(fs.existsSync(dir + '.json')).toBe(true);
+        });
+    });
+
+    it('save updates when record found', function () {
+        var done = false;
+
+        cars.insert(car1)
+            .flush()
+            .then(function () {
+                car1.model = 'foo';
+                return cars
+                    .save(car1)
+                    .flush();
+            })
+            .then(function () {
+                done = true;
+            });
+
+        waitsFor(function () {
+            return done;
+        }, 'save insert', 100);
+
+        runs(function () {
+            var dir = __dirname + '/var/cars/' + car1.id;
+
+            expect(fs.existsSync(dir + '.json')).toBe(true);
+            expect(fs.existsSync(dir)).toBe(true);
         });
     });
 
