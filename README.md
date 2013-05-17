@@ -139,6 +139,8 @@ important to know this fact.
 Map keys are converted to file name valid string with final-fs fileNameFilter function. Remember this when
 creating keys.
 
+**Remember that you must emit in emit function!**
+
 ###### Example: Create map and find by key in the map.
 
 ```js
