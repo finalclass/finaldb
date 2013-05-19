@@ -99,6 +99,11 @@ users.flush().then(function () {
 });
 ```
 
+## Flush
+
+When you call `.flush()` the collection is locked and it's impossible for any other process to change it.
+When all jobs are finished (or if error occured) the collection is unlocked.
+
 ## Find by id
 
 ```js
