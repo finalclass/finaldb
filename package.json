@@ -22,7 +22,8 @@
     "final-class": "0.0.0",
     "when": "~2.0.1",
     "extend": "~1.1.3",
-    "final-fs": "*"
+    "final-fs": "*",
+    "lockfile": "~0.3.2"
   },
   "devDependencies": {
     "jasmine-node": "*"
