@@ -29,9 +29,12 @@ describe('create update delete', function () {
     it('can insert', function () {
         var done = false;
 
-        cars.insert(car1).flush().then(function () {
-            done = true;
-        });
+        cars.insert(car1).flush()
+            .then(function () {
+                done = true;
+            }).otherwise(function (err) {
+                console.log(err.stack);
+            });
 
         waitsFor(function () {
             return done;
