@@ -6,13 +6,14 @@
 var fdb = require('../index.js'),
     fs = require('fs'),
     locker = require('../lib/locker.js'),
+    paths = require('../lib/paths.js'),
     ffs = require('final-fs');
 
 describe('create update delete', function () {
-    var cars, car1, car2;
+    var cars, car1, car2, rootDir = __dirname + '/var/cars';
 
     beforeEach(function () {
-        cars = new fdb.Collection({dirName: __dirname + '/var/cars'});
+        cars = new fdb.Collection({dirName: rootDir});
         car1 = {
             mark: 'Fiat',
             model: '126p'
@@ -34,7 +35,7 @@ describe('create update delete', function () {
             .remove({})// couses error: Arguments to path.resolve must be strings (no id specified)
             .flush()
             .ensure(function () {
-                isLocked = locker.checkSync([__dirname, 'var/cars/lock']);
+                isLocked = locker.checkSync(paths.lockFilePath(rootDir));
             });
 
         waitsFor(function () {

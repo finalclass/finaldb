@@ -18,4 +18,8 @@ describe('mapper', function () {
         expect(obj.text).not.toBeDefined();
     });
 
+    it('hashCode has at least 4 characters', function () {
+        expect(utils.hashCode().length).toBeGreaterThan(3);
+    });
+
 });

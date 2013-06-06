@@ -3,10 +3,11 @@
 'use strict';
 
 var Collection = require('../lib/Collection.js'),
+    paths = require('../lib/paths.js'),
     ffs = require('final-fs');
 
 describe('mapper', function () {
-    var dir = __dirname + '/var/cars',
+    var rootDir = __dirname + '/var/cars',
         cars,
         files;
 
@@ -21,13 +22,14 @@ describe('mapper', function () {
             {id: 'five', rev: '1', mark: 'super Duper', model: 'MiliardQ'}
         ];
 
-        ffs.mkdirRecursiveSync(dir, 0x1ff);
+        ffs.mkdirRecursiveSync(rootDir, 0x1ff);
 
         for (i = 0; i < files.length; i += 1) {
-            ffs.writeFileSync(dir + '/' + files[i].id + '.json', JSON.stringify(files[i], null, '  '));
+            ffs.mkdirRecursiveSync(paths.documentDir(rootDir, files[i].id), 0x1e0 /*0740*/);
+            ffs.writeFileSync(paths.documentPath(rootDir, files[i].id), JSON.stringify(files[i], null, '  '));
         }
 
-        cars = new Collection({dirName: dir});
+        cars = new Collection({dirName: rootDir});
     });
 
     afterEach(function () {
@@ -45,6 +47,10 @@ describe('mapper', function () {
                 cars.find('model_by_mark', 'mercedes').then(function (result) {
                     array = result;
                 });
+            })
+            .otherwise(function (err) {
+                console.log(err);
+                console.log(err.stack);
             });
 
         waitsFor(function () {
@@ -62,7 +68,7 @@ describe('mapper', function () {
                 emit(record.model, record);
             },
             done = false,
-            tmpFilePath = __dirname + '/var/cars/__maps/car-by-model/test.tmp';
+            tmpFilePath = paths.mapDir(rootDir, 'car by model') + '/test.tmp';
 
         cars
             .map('car by model', func) //create map (hash table)
@@ -74,6 +80,10 @@ describe('mapper', function () {
             })
             .then(function () {
                 done = true;
+            })
+            .otherwise(function (err) {
+                console.log(err);
+                console.log(err.stack);
             });
 
         waitsFor(function () {
@@ -143,7 +153,7 @@ describe('mapper', function () {
                 return cars.remove(carOne).flush();
             })
             .then(function () {
-                expect(ffs.existsSync(__dirname + '/var/cars/one.json')).not.toBeTruthy();
+                expect(ffs.existsSync(paths.documentPath(rootDir, 'one'))).not.toBeTruthy();
                 return cars.find('models by mark', 'fiat');
             })
             .then(function (result) {

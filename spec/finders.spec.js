@@ -4,23 +4,28 @@
 
 var finders = require('../lib/finders.js'),
     fs = require('fs'),
-    ffs = require('final-fs');
+    ffs = require('final-fs'),
+    path = require('path'),
+    paths = require('../lib/paths.js');
 
 describe('finders', function () {
     var dir = __dirname + '/var';
 
     beforeEach(function () {
         var i,
+            filePath,
+            dirPath,
             files = [
                 {id: 'one', rev: '1', foo: 'bar'},
                 {id: 'two', rev: '1', foo: 'fbr'},
                 {id: 'tree', rev: '1', abc: 'def'}
             ];
 
-        ffs.mkdirSync(dir, 0x1ff);
-
         for (i = 0; i < files.length; i += 1) {
-            fs.writeFileSync(dir + '/' + files[i].id + '.json', JSON.stringify(files[i]));
+            filePath = paths.documentPath(dir, files[i].id);
+            dirPath = path.dirname(filePath);
+            ffs.mkdirRecursiveSync(dirPath, 0x1ff);
+            fs.writeFileSync(filePath, JSON.stringify(files[i]));
         }
     });
 
@@ -31,9 +36,13 @@ describe('finders', function () {
     it('find all', function () {
         var entities;
 
-        finders.all(dir).then(function (items) {
-            entities = items;
-        });
+        finders.all(dir)
+            .then(function (items) {
+                entities = items;
+            })
+            .otherwise(function (err) {
+                console.log(err.stack);
+            });
 
         waitsFor(function () {
             return entities !== undefined;
@@ -53,7 +62,7 @@ describe('finders', function () {
 
         waitsFor(function () {
             return one !== undefined;
-        });
+        }, 100);
 
         runs(function () {
             expect(one.id).toBe('one');

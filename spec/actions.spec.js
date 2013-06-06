@@ -5,13 +5,15 @@
 
 var fdb = require('../index.js'),
     fs = require('fs'),
+    paths = require('../lib/paths.js'),
     ffs = require('final-fs');
 
-describe('create update delete', function () {
-    var cars, car1, car2;
+describe('actions', function () {
+    var cars, car1, car2, rootDir = __dirname + '/var/cars';
 
     beforeEach(function () {
-        cars = new fdb.Collection({dirName: __dirname + '/var/cars'});
+
+        cars = new fdb.Collection({dirName: rootDir});
         car1 = {
             mark: 'Fiat',
             model: '126p'
@@ -41,7 +43,9 @@ describe('create update delete', function () {
         }, 'insert', 100);
 
         runs(function () {
-            expect(fs.existsSync(__dirname + '/var/cars/' + car1.id + '.json')).toBe(true);
+            expect(
+                fs.existsSync(paths.documentPath(rootDir, car1.id))
+            ).toBe(true);
         });
     });
 
@@ -52,21 +56,28 @@ describe('create update delete', function () {
         cars.insert(car1);
         car1.mark = 'mercedes';
         oldRev = car1.rev;
-        cars.update(car1);
-        cars.flush().then(function () {
-            done = true;
-        });
+
+        cars
+            .update(car1)
+            .flush()
+            .then(function () {
+                done = true;
+            })
+            .otherwise(function (err) {
+                console.log(err);
+            });
 
         waitsFor(function () {
             return done;
         }, 'update', 100);
 
         runs(function () {
-            var dir = __dirname + '/var/cars/' + car1.id;
-            expect(fs.existsSync(dir + '.json')).toBe(true);
-            expect(fs.existsSync(dir)).toBe(true);
-            expect(fs.existsSync(dir + '/' + oldRev + '.json')).toBe(true);
-            expect(JSON.parse(fs.readFileSync(dir + '.json')).mark).toBe('mercedes');
+            var docPath = paths.documentPath(rootDir, car1.id),
+                revPath = paths.revisionPath(rootDir, car1.id, oldRev);
+
+            expect(fs.existsSync(docPath)).toBe(true);
+            expect(fs.existsSync(revPath)).toBe(true);
+            expect(JSON.parse(fs.readFileSync(docPath)).mark).toBe('mercedes');
         });
     });
 
@@ -84,9 +95,7 @@ describe('create update delete', function () {
         }, 'remove car', 100);
 
         runs(function () {
-            var dir = __dirname + '/var/cars/' + car1.id;
-            expect(fs.existsSync(dir + '.json')).toBe(false);
-            expect(fs.existsSync(dir)).toBe(false);
+            expect(fs.existsSync(paths.documentPath(rootDir, car1.id))).toBe(false);
         });
     });
 
@@ -105,9 +114,7 @@ describe('create update delete', function () {
         }, 'remove in sequence', 100);
 
         runs(function () {
-            var dir = __dirname + '/var/cars/' + car1.id;
-            expect(fs.existsSync(dir + '.json')).toBe(false);
-            expect(fs.existsSync(dir)).toBe(false);
+            expect(fs.existsSync(paths.documentPath(rootDir, car1.id))).toBe(false);
         });
     });
 
@@ -126,8 +133,7 @@ describe('create update delete', function () {
         }, 'save insert', 100);
 
         runs(function () {
-            var dir = __dirname + '/var/cars/' + car1.id;
-            expect(fs.existsSync(dir + '.json')).toBe(true);
+            expect(fs.existsSync(paths.documentPath(rootDir, car1.id))).toBe(true);
         });
     });
 
@@ -151,10 +157,7 @@ describe('create update delete', function () {
         }, 'save insert', 100);
 
         runs(function () {
-            var dir = __dirname + '/var/cars/' + car1.id;
-
-            expect(fs.existsSync(dir + '.json')).toBe(true);
-            expect(fs.existsSync(dir)).toBe(true);
+            expect(fs.existsSync(paths.documentPath(rootDir, car1.id))).toBe(true);
         });
     });
 
