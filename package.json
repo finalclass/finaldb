@@ -1,6 +1,6 @@
 {
   "name": "final-db",
-  "version": "1.4.6",
+  "version": "2.0.0",
   "description": "Embeded document based database system that uses bare file system as a storage. NoSql style.",
   "main": "index.js",
   "scripts": {
