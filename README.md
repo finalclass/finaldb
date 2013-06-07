@@ -8,6 +8,16 @@
 - Every async function returns a Promise. See [when](https://github.com/cujojs/when) documentation.
 - Uses [final-fs](https://github.com/finalclass/final-fs) library for file system manipulation.
 
+## Version 2
+
+Version 2 does not support version 1 databases. Whole files organisation is rewriten to allow users to store
+milions of documents.
+
+Also there is benchmark available in benchmarks directory. Benchmark is set to run for 100 000 files.
+Change it if you want.
+
+API is not changed in version 2.
+
 ## fdb.Collection constructor
 
 The fdb.Collection constructor takes one argument: an object of options. However now there is only one option

@@ -1,7 +1,7 @@
 {
   "name": "final-db",
   "version": "1.4.6",
-  "description": "Embeded database system that uses bare file system as a storage. NoSql style.",
+  "description": "Embeded document based database system that uses bare file system as a storage. NoSql style.",
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node ./spec/"
@@ -12,6 +12,8 @@
   },
   "keywords": [
     "database",
+    "document based",
+    "map",
     "embedded",
     "filesystem",
     "nosql"
@@ -19,13 +21,13 @@
   "author": "Szymon Wygnański <s@finalclass.net>",
   "license": "MIT",
   "dependencies": {
-    "final-class": "0.0.0",
-    "when": "~2.0.1",
-    "extend": "~1.1.3",
-    "final-fs": "*",
-    "lockfile": "~0.3.2"
+    "final-class": "0.0.x",
+    "when": "2.1.x",
+    "extend": "1.1.x",
+    "final-fs": "1.4.x",
+    "lockfile": "0.3.x"
   },
   "devDependencies": {
-    "jasmine-node": "*"
+    "jasmine-node": "1.8.x"
   }
 }
