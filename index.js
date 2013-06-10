@@ -4,4 +4,4 @@
 var utils = require('./lib/utils.js');
 
 exports.Collection = require('./lib/Collection.js');
-exports.generateUniqueId = utils.generateUniqueId();
+exports.generateUniqueId = utils.generateUniqueId;
