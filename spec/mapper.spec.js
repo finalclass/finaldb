@@ -63,6 +63,32 @@ describe('mapper', function () {
         });
     });
 
+    it('find map by not existing key returns empty array', function () {
+        var array;
+
+        cars
+            .map('model_by_mark', function (emit, record) {
+                emit(record.mark, record.model);
+            })
+            .then(function () {
+                return cars.find('model_by_mark', 'not existing').then(function (result) {
+                    array = result;
+                });
+            })
+            .otherwise(function (err) {
+                console.log(err);
+                console.log(err.stack);
+            });
+
+        waitsFor(function () {
+            return array !== undefined;
+        }, 'set map and find car by mark', 100);
+
+        runs(function () {
+            expect(array.length).toBe(0);
+        });
+    });
+
     it('same function is not rebuilding', function () {
         var func = function (emit, record) {
                 emit(record.model, record);
