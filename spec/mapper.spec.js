@@ -14,8 +14,6 @@ describe('mapper', function () {
     beforeEach(function () {
         var i;
 
-        ffs.rmdirRecursiveSync(__dirname + '/var');
-
         files = [
             {id: 'one', rev: '1', mark: 'fiat', model: '126p'},
             {id: 'two', rev: '1', mark: 'mercedes', model: 'benz'},
@@ -35,7 +33,7 @@ describe('mapper', function () {
     });
 
     afterEach(function () {
-//        ffs.rmdirRecursiveSync(__dirname + '/var');
+        ffs.rmdirRecursiveSync(__dirname + '/var');
     });
 
     it('set map', function () {
