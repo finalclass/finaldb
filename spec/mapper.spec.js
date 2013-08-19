@@ -14,6 +14,8 @@ describe('mapper', function () {
     beforeEach(function () {
         var i;
 
+        ffs.rmdirRecursiveSync(__dirname + '/var');
+
         files = [
             {id: 'one', rev: '1', mark: 'fiat', model: '126p'},
             {id: 'two', rev: '1', mark: 'mercedes', model: 'benz'},
@@ -33,7 +35,7 @@ describe('mapper', function () {
     });
 
     afterEach(function () {
-        ffs.rmdirRecursiveSync(__dirname + '/var');
+//        ffs.rmdirRecursiveSync(__dirname + '/var');
     });
 
     it('set map', function () {
@@ -280,6 +282,33 @@ describe('mapper', function () {
 
         runs(function () {
             expect(foundCars.length).toBe(1);
+        });
+    });
+
+    it('can map by array', function () {
+        var foundRecords = null;
+
+        cars
+            .map('car by mark and model', function (emit, record) {
+                emit([record.mark, record.model], record);
+            })
+            .then(function () {
+                return cars.find('car by mark and model', ['fiat', '126p']);
+            })
+            .then(function (result) {
+                foundRecords = result;
+            })
+            .otherwise(function (err) {
+                console.log([err, err.stack]);
+            });
+
+        waitsFor(function () {
+            return foundRecords !== null;
+        }, 'create map with array key and find by it', 100);
+
+        runs(function () {
+            expect(foundRecords.length).toBe(1);
+            expect(foundRecords[0].id).toBe('one');
         });
     });
 
