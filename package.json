@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "final-class": "0.0.x",
+    "final-class": "0.x.x",
     "when": "2.1.x",
     "extend": "1.1.x",
     "final-fs": "1.4.x",

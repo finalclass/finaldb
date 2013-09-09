@@ -49,11 +49,13 @@ var fdb = require('final-db'),
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
 users.insert(john);
-//Now john.id and john.rev properties are available (these are generated randomly)
+//Now john.id, john.rev, john.updatedAt (equal to createdAt) and john.createdAt properties are available (these are generated randomly)
 users.flush().then(function () {
     //do something on finish
 });
 ```
+
+When you invoke `.insert(entity)` the id, rev, updatedAt (equal to createdAt) and createdAt properties of the element are set.
 
 When you run .flush() few thinks happen:
 
@@ -70,11 +72,13 @@ var fdb = require('final-db'),
     users = new fdb.Collection({dirName: __dirname + '/var'});
 
 users.update(john);
-//john.rev will change
+//john.rev and john.updatedAt are changed now
 users.flush().then(function () {
     //do something on finish
 });
 ```
+
+When you invoke `.update(entity)` the rev and updatedAt properties are changed.
 
 After doing flush, old version of updated record will be saved in a file located here:
 collectionDir/recordId/revisionNumber.json
@@ -202,3 +206,10 @@ key and value.
 
 - key is a hash key.
 - value is a value you want to save in the hash.
+
+
+### lock() and unlock()
+
+FinalDB `Collection` class has method lock and unlock. You can use them to lock the table for a certain period of time or until you
+unlock it.
+
