@@ -20,8 +20,9 @@ API is not changed in version 2.
 
 ## fdb.Collection constructor
 
-The fdb.Collection constructor takes one argument: an object of options. However now there is only one option
-you can specify: dirName. This option can be set as a string or an Array.
+The fdb.Collection constructor takes one argument: an object of options.
+At this moment you can pass 2 arguments through the options object: dirName(string) and storeRevisions(boolean).
+This option can be set as a string or an Array.
 If you've specified dirName as an Array then path.resolve is called on this array.
 
 If instead of specifying an object as an input to fdb.Collection you've specified a string or an array
@@ -40,6 +41,8 @@ new fdb.Collection('/path/to/collection/files');
 //or
 new fdb.Collection(['path', 'to', 'collection', 'files']);
 ```
+
+If you specify `storeRevisions` options flag then whenever you update the record, old record will be moved to the revisions directory.
 
 ## Insert
 
@@ -80,6 +83,7 @@ users.flush().then(function () {
 
 When you invoke `.update(entity)` the rev and updatedAt properties are changed.
 
+**If `collection.storeRevisions` property** was set then:
 After doing flush, old version of updated record will be saved in a file located here:
 collectionDir/recordId/revisionNumber.json
 So you can revert any change any time.
