@@ -27,8 +27,7 @@
     "final-class": "0.x.x",
     "when": "2.1.x",
     "extend": "1.2.x",
-    "final-fs": "1.4.x",
-    "lockfile": "0.3.x"
+    "final-fs": "1.4.x"
   },
   "devDependencies": {
     "jasmine-node": "1.8.x"
