@@ -71,4 +71,12 @@ describe('finders', function () {
     });
   });
 
+  it('should return an empty array when collection is not created', function (done) {
+    finders.all(dir + '1') //set not existing directory
+      .then(function (items) {
+        expect(items && items.length === 0).toBeTruthy();
+        done();
+      });
+  });
+
 });
