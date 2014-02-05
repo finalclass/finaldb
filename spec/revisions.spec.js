@@ -44,7 +44,7 @@ describe('actions', function () {
         revisions = files;
       })
       .otherwise(function (err) {
-          console.log('err', [err, err.stack]);
+        console.log('err', [err, err.stack]);
       });
 
     waitsFor(function () {

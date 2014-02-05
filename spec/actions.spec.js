@@ -3,10 +3,10 @@
 
 'use strict';
 
-var fdb = require('../index.js'),
-  fs = require('fs'),
-  paths = require('../lib/paths.js'),
-  ffs = require('final-fs');
+var fdb = require('../index.js');
+var fs = require('fs');
+var paths = require('../lib/paths.js');
+var ffs = require('final-fs');
 
 describe('actions', function () {
   var cars, car1, car2, rootDir = __dirname + '/var/cars';
@@ -88,9 +88,13 @@ describe('actions', function () {
     cars.insert(car1);
 
     done = false;
-    cars.flush().then(function () { done = true; });
+    cars.flush().then(function () {
+      done = true;
+    });
 
-    waitsFor(function () { return done; });
+    waitsFor(function () {
+      return done;
+    });
     runs(function () {
       // Inserts an updated record without `createdAt`.
       cars.update({
@@ -100,10 +104,14 @@ describe('actions', function () {
       });
 
       done = false;
-      cars.flush().then(function () { done = true; });
+      cars.flush().then(function () {
+        done = true;
+      });
     });
 
-    waitsFor(function () { return done; });
+    waitsFor(function () {
+      return done;
+    });
     runs(function () {
       // Retrieves the record.
       cars.find(car1.id).then(function (result) {
@@ -111,7 +119,9 @@ describe('actions', function () {
       });
     });
 
-    waitsFor(function () { return car1v2; });
+    waitsFor(function () {
+      return car1v2;
+    });
     runs(function () {
       // Asserts `createdAt` has been kept.
       expect(car1v2.createdAt).toBe(car1.createdAt);

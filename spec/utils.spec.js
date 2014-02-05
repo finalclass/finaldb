@@ -6,20 +6,20 @@ var utils = require('../lib/utils.js');
 
 describe('mapper', function () {
 
-    it('sanitize', function () {
-        var obj = {
-            foo: 'bar',
-            test: 'test2',
-            abc: 'def'
-        };
+  it('sanitize', function () {
+    var obj = {
+      foo: 'bar',
+      test: 'test2',
+      abc: 'def'
+    };
 
-        utils.sanitize(obj, ['foo', 'abc']);
+    utils.sanitize(obj, ['foo', 'abc']);
 
-        expect(obj.text).not.toBeDefined();
-    });
+    expect(obj.text).not.toBeDefined();
+  });
 
-    it('hashCode has at least 4 characters', function () {
-        expect(utils.hashCode().length).toBeGreaterThan(3);
-    });
+  it('hashCode has at least 4 characters', function () {
+    expect(utils.hashCode().length).toBeGreaterThan(3);
+  });
 
 });
