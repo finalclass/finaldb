@@ -81,6 +81,43 @@ describe('actions', function () {
     });
   });
 
+  it('update keep createdAt when not specified', function () {
+    var done, car1v2;
+
+    // Inserts the original record.
+    cars.insert(car1);
+
+    done = false;
+    cars.flush().then(function () { done = true; });
+
+    waitsFor(function () { return done; });
+    runs(function () {
+      // Inserts an updated record without `createdAt`.
+      cars.update({
+        id: car1.id, // Keeps the same id, it is the same record.
+        mark: 'Mercedes',
+        model: 'Zetros',
+      });
+
+      done = false;
+      cars.flush().then(function () { done = true; });
+    });
+
+    waitsFor(function () { return done; });
+    runs(function () {
+      // Retrieves the record.
+      cars.find(car1.id).then(function (result) {
+        car1v2 = result;
+      });
+    });
+
+    waitsFor(function () { return car1v2; });
+    runs(function () {
+      // Asserts `createdAt` has been kept.
+      expect(car1v2.createdAt).toBe(car1.createdAt);
+    });
+  });
+
   it('can remove', function () {
     var done = false;
 
