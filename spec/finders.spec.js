@@ -53,6 +53,21 @@ describe('finders', function () {
     });
   });
 
+  it('find by ids array', function (done) {
+    finders.byIds(dir, ['one', 'two']).then(function (result) {
+      expect(result.length).toBe(2);
+      expect(result[0].foo).toBe('bar');
+      done();
+    });
+  });
+
+  it('find by ids array - return empty array if no results found', function (done) {
+    finders.byIds(dir, ['not existing 1', 'not existing 2']).then(function (result) {
+      expect(result.length).toBe(0);
+      done();
+    });
+  });
+
   it('find by id', function () {
     var one;
 
