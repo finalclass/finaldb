@@ -133,6 +133,17 @@ users.find('userId').then(function (user) {
 });
 ```
 
+## Find by array of ids
+
+```js
+var fdb = require('final-db'),
+    users = new fdb.Collection({dirName: __dirname + '/var'});
+
+users.find(['1', '2', 'not_existing_id']).then(function (arrayOfUsers) {
+    //arrayOfUsers should have 2 records
+});
+```
+
 ## Find all
 
 ```js
